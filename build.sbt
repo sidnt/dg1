@@ -11,6 +11,7 @@ lazy val root = project
       "dev.zio" %% "zio" % zioV,
       "dev.zio" %% "zio-test" % zioV % "test",
       "dev.zio" %% "zio-test-sbt" % zioV % "test",
+      "dev.zio" %% "zio-json" % "0.1",
       "io.dgraph" % "dgraph4j" % "20.11.0"
     ),
     testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")

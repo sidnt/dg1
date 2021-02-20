@@ -7,8 +7,8 @@ import zio._
 import zio.test._
 import zio.test.Assertion._
 
-object dgClientSpec extends DefaultRunnableSpec {
-  def spec = suite("dgClientSpec")(
+object dgClientSpec {
+  def dgClientSpec = suite("dgClientSpec")(
     testM("can check dg version if local dg instance is up") {
       (for {
         dgClient <- getDgClient //.provideLayer(localLiveDgClient) [1]
@@ -31,4 +31,3 @@ object dgClientSpec extends DefaultRunnableSpec {
   * the test will also fail
   * and you will get a stacktrace in console as well
   */
-  
