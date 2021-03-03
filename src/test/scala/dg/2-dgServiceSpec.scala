@@ -14,7 +14,7 @@ object dgServiceSpec {
 
   val dgServiceSuite = /**suite("dgServiceSpec")(*/
     testM("mutate & getPredicatesAtUid & queryPredicateForTerms works") {
-      (for {
+      for {
         dgService     <-    accessDgService
         _             <-    dgService.dropAll
         _             <-    dgService.setSchema("is: string @index(term) .")
@@ -27,7 +27,7 @@ object dgServiceSpec {
         payloadOut2   =     responseJson2.split(':')(2).substring(1, payloadIn.length+1)
         assertResult  =     payloadIn == payloadOut1 && payloadIn == payloadOut2
         _             <-    dgService.dropAll
-      } yield assert(assertResult)(equalTo(true))).provideCustomLayer(localLiveDgService)
+      } yield assert(assertResult)(equalTo(true))
     }
 //  )
 }

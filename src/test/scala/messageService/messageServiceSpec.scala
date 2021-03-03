@@ -16,73 +16,73 @@ object messageServiceSpec {
       
       
       testM("setting up test message schema") {
-        (for {
+        for {
           dgService <-  accessDgService
           _         <-  dgService.setSchema("message: string @index(term) .")
           tru       <-  UIO(true)
-        } yield assert(tru)(equalTo(true))).provideCustomLayer(localLiveDgService)
+        } yield assert(tru)(equalTo(true))
       },
       
 
       testM("store & get message test") {
-        (for {
+        for {
           msgService    <-  accessMessageService
           payloadIn     =   "hello world"  
           uid           <-  msgService.storeMessage(payloadIn)
           payloadOut    <-  msgService.getMessage(uid).map(m => m.message)
-        } yield assert(payloadIn)(equalTo(payloadOut))).provideCustomLayer(localLiveMessageService)
+        } yield assert(payloadIn)(equalTo(payloadOut))
       },
 
 
       testM("message exists test") {
-        (for {
+        for {
           msgService    <-  accessMessageService
           payloadIn     =   "i exist"
           uid           <-  msgService.storeMessage(payloadIn)
           bool          <-  msgService.messageExists(uid)
-        } yield assert(bool)(equalTo(true))).provideCustomLayer(localLiveMessageService)
+        } yield assert(bool)(equalTo(true))
       },
       
 
       testM("update message test") {
-        (for {
+        for {
           msgService    <-  accessMessageService
           payloadIn     =   "old message"
           uid           <-  msgService.storeMessage(payloadIn)
           updatedMessage =  "new message"
           _             <-  msgService.updateMessage(uid, updatedMessage)
           payloadOut    <-  msgService.getMessage(uid).map(m => m.message)
-        } yield assert(payloadOut)(equalTo(updatedMessage))).provideCustomLayer(localLiveMessageService)
+        } yield assert(payloadOut)(equalTo(updatedMessage))
       },
 
 
       testM("find messages test") {
-        (for {
+        for {
           msgService    <-  accessMessageService
           payloadIn     =   "this message will be searched"
           _             <-  msgService.storeMessage(payloadIn)
           messages      <-  msgService.findMessages("searched")
           payloadOut    =  messages.messages(0).message
-        } yield assert(payloadIn)(equalTo(payloadOut))).provideCustomLayer(localLiveMessageService)
+        } yield assert(payloadIn)(equalTo(payloadOut))
       },
 
 
       testM("delete message test") {
-        (for {
+        for {
           msgService    <-  accessMessageService
           payloadIn     =   "this message will be deleted"
           uid           <-  msgService.storeMessage(payloadIn)
           _             <-  msgService.deleteMessage(uid)
           messages      <-  msgService.findMessages("deleted")
-        } yield assert(messages.messages)(isEmpty)).provideCustomLayer(localLiveMessageService)
+        } yield assert(messages.messages)(isEmpty)
       },
       
       
       testM("clearing up test schema") {
-        (for {
+        for {
           dgService   <-    accessDgService
           dropped     <-    dgService.dropAll
-        } yield assert(dropped)(equalTo(()))).provideCustomLayer(localLiveDgService)
+        } yield assert(dropped)(equalTo(()))
       }
       
 

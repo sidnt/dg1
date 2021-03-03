@@ -10,11 +10,11 @@ import zio.test.Assertion._
 object dgClientSpec {
   def dgClientSpec = suite("dgClientSpec")(
     testM("can check dg version if local dg instance is up") {
-      (for {
+      for {
         dgClient <- getDgClient //.provideLayer(localLiveDgClient) [1]
         dgVersion <- Task(dgClient.checkVersion.getTag)
         // dgVersion <- Task(throw new Exception("boom")) [2]
-      } yield assert(dgVersion)(equalTo("v20.11.1"))).provideLayer(localLiveDgClient)
+      } yield assert(dgVersion)(equalTo("v20.11.1"))
     }
   )
 }
